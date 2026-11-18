@@ -1,0 +1,39 @@
+:root {
+  --queens-blue: #002452;
+  --queens-gold: #fabd0f;
+  --queens-red: #b90e31;
+  --queens-lightest-grey: #f1f2f2;
+  --queens-text: #212121;
+  --queens-body-font: "Open Sans", Arial, Verdana, Roboto, sans-serif;
+  --queens-heading-font: "Volkhov", Georgia, serif;
+
+  font-family: var(--queens-body-font);
+  color: var(--queens-text);
+  background: var(--queens-lightest-grey);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+::selection {
+  color: var(--queens-blue);
+  background: var(--queens-gold);
+}
