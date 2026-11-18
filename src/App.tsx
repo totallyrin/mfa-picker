@@ -109,8 +109,9 @@ const platformVersionChoices: Record<Platform, { value: string; label: string }[
 }
 
 const accountChoices = [
-  { value: 'employee', label: 'Employee' },
   { value: 'student', label: 'Student' },
+  { value: 'faculty', label: 'Faculty' },
+  { value: 'employee', label: 'Employee' },
   { value: 'retiree', label: 'Retiree' },
   { value: 'alumni', label: 'Alumni' },
 ]
@@ -211,15 +212,15 @@ function App() {
           {/* <div className="eyebrow"><span /> A better way to sign in</div> */}
           <Title order={1}>Choose an MFA method</Title>
           <Text className="intro-copy">
-            Tell us which device you use and what type of account you have.<br/>We'll show you the available options.
+            Tell us what type of account you have and which device you use.<br/>We'll show you the available options.
           </Text>
         </section>
 
         <Card className="quiz-card" radius="xl" padding={0} withBorder>
           <div className="stepper-wrap">
             <Stepper active={activeStep} onStepClick={(step) => step < activeStep && setActiveStep(step)}>
-              <Stepper.Step label="Device" description="Choose your device" />
               <Stepper.Step label="Account" description="Choose your account type" />
+              <Stepper.Step label="Device" description="Choose your device" />
               <Stepper.Step label="Options" description="Review MFA methods" />
             </Stepper>
           </div>
@@ -231,6 +232,37 @@ function App() {
               <Stack gap="lg">
                 <div>
                   <Text className="question-kicker">STEP 1 OF 3</Text>
+                  <Title order={2}>Which type of Queen's account do you have?</Title>
+                  <Text className="question-hint">Choose the role that applies to your account.</Text>
+                </div>
+                <Select
+                  label="Account type"
+                  placeholder="Select an account type"
+                  data={accountChoices}
+                  value={accountType}
+                  onChange={setAccountType}
+                  size="md"
+                  radius="md"
+                  comboboxProps={{ withinPortal: false }}
+                />
+                <div className="step-actions split-actions">
+                  <Button
+                    size="md"
+                    radius="md"
+                    rightSection={<span aria-hidden="true">→</span>}
+                    disabled={!accountType}
+                    onClick={() => setActiveStep(1)}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </Stack>
+            )}
+
+            {activeStep === 1 && (
+              <Stack gap="lg">
+                <div>
+                  <Text className="question-kicker">STEP 2 OF 3</Text>
                   <Title order={2}>Which device will you use?</Title>
                   <Text className="question-hint">Choose the device you use to sign in to your Queen's account.</Text>
                 </div>
@@ -263,37 +295,6 @@ function App() {
                 <Text className="question-hint version-hint">
                   If you're unsure, select “I don't know.”
                 </Text>
-                <div className="step-actions">
-                  <Button
-                    size="md"
-                    radius="md"
-                    rightSection={<span aria-hidden="true">→</span>}
-                    disabled={!device || !deviceVersion}
-                    onClick={() => setActiveStep(1)}
-                  >
-                    Next
-                  </Button>
-                </div>
-              </Stack>
-            )}
-
-            {activeStep === 1 && (
-              <Stack gap="lg">
-                <div>
-                  <Text className="question-kicker">STEP 2 OF 3</Text>
-                  <Title order={2}>Which type of Queen's account do you have?</Title>
-                  <Text className="question-hint">Choose the role that applies to your account.</Text>
-                </div>
-                <Select
-                  label="Account type"
-                  placeholder="Select an account type"
-                  data={accountChoices}
-                  value={accountType}
-                  onChange={setAccountType}
-                  size="md"
-                  radius="md"
-                  comboboxProps={{ withinPortal: false }}
-                />
                 <div className="step-actions split-actions">
                   <Button variant="subtle" color="gray" size="md" onClick={() => setActiveStep(0)}>
                     Back
@@ -302,7 +303,7 @@ function App() {
                     size="md"
                     radius="md"
                     rightSection={<span aria-hidden="true">→</span>}
-                    disabled={!accountType}
+                    disabled={!device || !deviceVersion}
                     onClick={continueToOptions}
                   >
                     View MFA options
